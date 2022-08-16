@@ -4,21 +4,11 @@ import Notiflix from 'notiflix';
 import fetchCountries from './fetchCountries';
 import countryListTpl from './countryListElement.hbs';
 import countryInfoTpl from './countryInfo.hbs';
-// Додатковий імпорт стилів
 import "notiflix/dist/notiflix-3.2.5.min.css";
+import getRefs from './getRefs';
 
 const DEBOUNCE_DELAY = 300;
-
-
-const refs = {
-    searchForm: document.querySelector('input#search-box'),
-    countryList: document.querySelector('.country-list'),
-    countryInfo: document.querySelector('.country-info'),
-};
-
-
-
-
+const refs = getRefs();
 refs.searchForm.addEventListener('input', debounce(inputSearch, DEBOUNCE_DELAY));
 
 function inputSearch(e) {
