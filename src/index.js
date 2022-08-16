@@ -14,28 +14,28 @@ refs.searchForm.addEventListener('input', debounce(inputSearch, DEBOUNCE_DELAY))
 function inputSearch(e) {
     const search = e.target.value.trim();
     if (!search) {
-        clearMarkup();
+        cleanMarkup();
         return;
     };
    
     fetchCountries(search)
         .then(country => {
             if (country.length > 10) {
-                clearMarkup()
+                cleanMarkup()
                 Notiflix.Notify.info("Too many matches found. Please enter a more specific name.");
                 return;
             };
             if (2 <= country.length && country.length <= 10) {
-                clearMarkup()
+                cleanMarkup()
                 refs.countryList.insertAdjacentHTML('afterbegin', countryListTpl(country));                                      
             }
             else {
-                clearMarkup();                            
+                cleanMarkup();                            
                 refs.countryInfo.insertAdjacentHTML('afterbegin', countryInfoTpl(country));                                      
             };
         })
         .catch(error => {
-            clearMarkup();
+            cleanMarkup();
             console.log("Oops, there is no country with that name");
             return Notiflix.Notify.failure("Oops, there is no country with that name");
         });
@@ -43,7 +43,7 @@ function inputSearch(e) {
 }; 
 
 
-function clearMarkup() {
+function cleanMarkup() {
   refs.countryInfo.innerHTML = ' ';
   refs.countryList.innerHTML = ' ';   
 }
