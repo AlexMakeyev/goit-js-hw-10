@@ -2,8 +2,8 @@ import './css/styles.css';
 import debounce from 'lodash.debounce';
 import Notiflix from 'notiflix';
 import fetchCountries from './fetchCountries';
-import countryListTpl from './countryListElement.hbs';
-import countryInfoTpl from './countryInfo.hbs';
+import createCountryElement from './countryListElement.js';
+import createCountryInfo from './countryInfo.js';
 import "notiflix/dist/notiflix-3.2.5.min.css";
 import getRefs from './getRefs';
 
@@ -17,7 +17,7 @@ function inputSearch(e) {
         cleanMarkup();
         return;
     };
-   
+
     fetchCountries(search)
         .then(country => {
             if (country.length > 10) {
@@ -27,11 +27,13 @@ function inputSearch(e) {
             };
             if (2 <= country.length && country.length <= 10) {
                 cleanMarkup()
-                refs.countryList.insertAdjacentHTML('afterbegin', countryListTpl(country));                                      
+                const element = country.map(createCountryElement).join('');
+                refs.countryList.insertAdjacentHTML('afterbegin', element);                                      
             }
             else {
-                cleanMarkup();                            
-                refs.countryInfo.insertAdjacentHTML('afterbegin', countryInfoTpl(country));                                      
+                cleanMarkup();
+                const element = country.map(createCountryInfo).join('');
+                refs.countryInfo.insertAdjacentHTML('afterbegin', element);                                      
             };
         })
         .catch(error => {
